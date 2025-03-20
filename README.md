@@ -15,7 +15,9 @@ Prerequisites
 - PHP 8.2 or higher
 - Composer
 - PostgresSQL (with a `product_db` database created)
-
+- php8.2-zip
+- php8.2-pdo
+- php8.2-pgsql
 
 Installation
 
@@ -28,7 +30,9 @@ Installation
 
 3. Set Up Environment Variables:
     - Copy `.env.example` to `.env`:
-      cp .env.example .env
+      ```
+        cp .env.example .env 
+      ```
     - Edit `.env` with your PostgresSQL credentials (all fields are required):
    ```
     DB_HOST=localhost
