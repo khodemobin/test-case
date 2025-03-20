@@ -18,6 +18,8 @@ Prerequisites
 - php8.2-zip
 - php8.2-pdo
 - php8.2-pgsql
+- zip
+- unzip
 
 Installation
 
