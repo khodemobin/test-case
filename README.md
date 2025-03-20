@@ -55,7 +55,7 @@ Installation
       );
       CREATE INDEX idx_products_category ON products (category);
       CREATE INDEX idx_products_created_at ON products (created_at);
-    ```
+      ```
 Running the Application
 
 Start the PHP built-in server:
@@ -87,7 +87,6 @@ Example Requests
     curl -X POST http://localhost:8000/products \
   -H "Content-Type: application/json" \
   -d '{"name": "Laptop", "price": 999.99, "category": "electronics", "attributes": {"brand": "Dell"}}'
-  Response: {"id": "uuid", "name": "Laptop", "price": 999.99, "category": "electronics", "attributes": {"brand": "Dell"}, "createdAt": "2025-03-20T..."}
 ```
 - Get a Product:
   ```shell

@@ -18,7 +18,7 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($this->matchesRoute($route, $request)) {
-                $this->executeHandler($route['handler'], $request);
+                $this->executeHandlerWithParameters($route['handler'], $request, $route['path']);
                 return;
             }
         }
@@ -36,19 +36,41 @@ class Router
         ];
     }
 
-    private function matchesRoute(array $route, Request $request): bool
+    private function matchesRoute(array $route, Request $request): bool|array
     {
         if ($route['method'] !== $request->getMethod()) return false;
         $pattern = preg_replace('#\{[^/]+\}#', '([^/]+)', $route['path']);
         return preg_match("#^$pattern$#", $request->getPath(), $matches) ? $matches : false;
     }
 
-    private function executeHandler(callable $handler, Request $request): void
+    private function executeHandlerWithParameters(callable $handler, Request $request, string $path): void
     {
         $matches = [];
-        preg_match("#^" . preg_replace('#\{[^/]+\}#', '([^/]+)', $request->getPath()) . "$#", $request->getPath(), $matches);
-        array_shift($matches);
-        $handler($request, ...$matches);
+        // Generate the pattern from the route path
+        $pattern = "#^" . preg_replace('#\{[^/]+\}#', '([^/]+)', $path) . "$#";
+        // Perform the matching
+        if (preg_match($pattern, $request->getPath(), $matches)) {
+            array_shift($matches);
+
+            // Check the number of arguments expected by the handler
+            $reflection = new \ReflectionFunction($handler);
+            $expectedParams = $reflection->getNumberOfParameters();
+
+            // Call the handler with the correct number of arguments
+            if ($expectedParams === 1) {
+                $handler($request);
+            } else {
+                $handler($request, ...$matches);
+            }
+        } else {
+            // Debugging information
+            error_log("Pattern: $pattern");
+            error_log("Request Path: " . $request->getPath());
+            error_log("Matches: " . print_r($matches, true));
+
+            // Handle the case where the route does not match
+            $this->notFound();
+        }
     }
 
     private function notFound(): never
