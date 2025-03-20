@@ -4,13 +4,13 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    && docker-php-ext-install pdo pgsql
+    && docker-php-ext-install pdo pgsql pdo_pgsql
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY . /app
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install
 
 RUN chown -R www-data:www-data /app \
     && chmod -R 755 /app

@@ -10,12 +10,35 @@ A REST API built with pure PHP 8.2+ using an MVC-like structure, PostgresSQL, Cl
 - Unit and integration tests with PHPUnit.
 - Environment variable configuration via `.env`.
 
-Prerequisites
+
+### Docker setup
+
+1. Clone the Repository
+   - git clone https://github.com/khodemobin/test-case
+   - cd project
+
+2. Set Up Environment Variables:
+   - Copy `.env.example` to `.env`:
+     ```
+       cp .env.example .env 
+     ```
+3. Run Docker
+```shell
+  docker compose up -d
+```
+
+4. Running tests
+```shell
+  docker compose exec app composer run test
+```
+
+
+
+### Manual installation Prerequisites
 
 - PHP 8.2 or higher
 - Composer
 - PostgresSQL (with a `product_db` database created)
-- php8.2-zip
 - php8.2-pdo
 - php8.2-pgsql
 - zip
@@ -24,8 +47,8 @@ Prerequisites
 Installation
 
 1. Clone the Repository
-   git clone https://github.com/khodemobin/test-case
-   cd project
+   - git clone https://github.com/khodemobin/test-case
+   - cd project
 
 2. Install Dependencies:
    composer install

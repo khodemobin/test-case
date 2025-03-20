@@ -112,3 +112,5 @@ phpcs.xml
 /wpcs/*
 
 .env
+
+docker/data

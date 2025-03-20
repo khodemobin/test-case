@@ -15,5 +15,15 @@ services:
     ports:
       - "8000:8000"
 
-volumes:
-  db-data:
+  pgsql:
+    image: postgres:15
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - "./docker/data/pgsql:/var/lib/postgresql/data"
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
